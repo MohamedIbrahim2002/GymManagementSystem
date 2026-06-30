@@ -2,13 +2,7 @@
 using GymManagment.DAL.Data.Models;
 using GymManagment.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GymManagment.DAL.Repositories.Classes
 {
@@ -24,26 +18,11 @@ namespace GymManagment.DAL.Repositories.Classes
 
        
             //_dbcontext.set<TEntity>().Add(entity)
-       public void Add(TEntity entity)
-        {
-            _dbSet.Add(entity);
-        }
-
-        public void Update(TEntity entity)
-        {
-            _dbSet.Update(entity);
-        }
-
-        public void Delete(TEntity entity)
-        {
-            _dbSet.Remove(entity);
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = false, CancellationToken cancellationToken = default)
-          {
-            IQueryable<TEntity> query = tracking? _dbSet: _dbSet.AsNoTracking();
-            return await  query.ToListAsync();
-          }
+        public void Add(TEntity entity)=>_dbSet.Add(entity);
+        public void Update(TEntity entity)=>_dbSet.Update(entity);
+        public void Delete(TEntity entity) =>_dbSet.Remove(entity);
+        
+        
 
         public async Task<TEntity?> GetByIdAsync(int id, CancellationToken ct = default) => await _dbSet.FindAsync(id, ct);
 
@@ -64,6 +43,15 @@ namespace GymManagment.DAL.Repositories.Classes
             return condition == null? await _dbSet.AsNoTracking().CountAsync(ct) : await _dbSet.CountAsync(condition, ct);
 
             
+        }
+
+    
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = false, CancellationToken ct = default)
+        {
+            IQueryable<TEntity> query = tracking ? _dbSet : _dbSet.AsNoTracking();
+            return await query.ToListAsync();
+
         }
     }
 }

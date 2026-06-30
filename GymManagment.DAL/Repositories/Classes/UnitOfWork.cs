@@ -15,13 +15,17 @@ namespace GymManagment.DAL.Repositories.Classes
         private readonly GymDbContext _context;
         // to store repositories 
         private readonly Dictionary<string, object> _repositories = [];
-        public UnitOfWork(GymDbContext context , ISessionRepository sessionRepository) 
+        public UnitOfWork(GymDbContext context , ISessionRepository sessionRepository ,IMembershipRepository membershipRepository) 
         {
             _context = context;
             SessionRepository = sessionRepository;
+            MembershipRepository = membershipRepository;
         }
 
         public ISessionRepository SessionRepository { get; }
+        public IMembershipRepository MembershipRepository { get; }
+
+        public IBookingRepository BookingRepository  { get; }
 
         public IGenaricRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()
         {

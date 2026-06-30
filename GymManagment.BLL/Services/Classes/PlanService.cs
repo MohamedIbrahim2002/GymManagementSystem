@@ -91,7 +91,7 @@ namespace GymManagment.BLL.Services.Classes
 
         private async Task<bool> HasActiveMemberShipsAsync (int planId, CancellationToken ct )
         {
-            return await _unitOfWork.GetRepository<Membership>().AnyAsync(m => m.PlanId == planId && m.EndDate > DateTime.Now, ct);
+            return await _unitOfWork.GetRepository<Membership >().AnyAsync(m => m.PlanId == planId && m.EndDate > DateTime.Now, ct);
         }
     }
 }

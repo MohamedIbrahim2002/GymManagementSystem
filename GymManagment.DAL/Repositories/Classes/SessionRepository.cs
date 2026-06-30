@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,13 +19,22 @@ namespace GymManagment.DAL.Repositories.Classes
         {
             _context = context;
         }
-        public async Task<IEnumerable<Session>> GetAllSessionsWithTrainerAndCategoryAsync(CancellationToken ct = default)
+        
+
+        public async Task<IEnumerable<Session>> GetAllSessionsWithTrainerAndCategoryAsync(Expression<Func<Session, bool>> predicate, CancellationToken ct = default)
         {
+
             var sessions = _context.Sessions.AsNoTracking()
                 .Include(s => s.Trainer)
                 .Include(s => s.Category);
 
             return await sessions.ToListAsync(ct);
+        }
+
+        public async Task<IEnumerable<Session>> GetAllSessionsWithTrainerAndCategoryAsync(CancellationToken ct = default)
+        {
+            return await _context.Sessions.AsNoTracking().Include(s => s.Trainer).Include(s => s.Category).ToListAsync(ct);
+
         }
 
         public async Task<int> GetCountAvailableSlotsAsync(int sessionId, CancellationToken ct = default)
@@ -34,7 +44,8 @@ namespace GymManagment.DAL.Repositories.Classes
 
         public async Task<Session?> GetSessionByIdWithTrainerAndCategory(int sessionId, CancellationToken ct = default)
         {
-            return await _context.Sessions.AsNoTracking().Include(s => s.Trainer).Include(s => s.Category).FirstOrDefaultAsync(s=>s.Id == sessionId);
+            return await _context.Sessions.AsNoTracking().Include(s => s.Trainer).Include(s => s.Category).FirstOrDefaultAsync(s => s.Id==sessionId);
+
         }
     }
 }

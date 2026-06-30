@@ -33,7 +33,7 @@ namespace GymManagment.BLL.Services.Classes
             var totalTrainers = await _unitOfWork.GetRepository<Trainer>().CountAsync(ct: ct);
         
         
-            var activeMembers = await _unitOfWork.GetRepository<Membership>().CountAsync(x=>x.EndDate > DateTime.Now , ct);
+            var activeMembers = await _unitOfWork.GetRepository<Membership>().CountAsync(x=>x.EndDate> DateTime.Now , ct);
 
 
             return new AnalaticViewModel

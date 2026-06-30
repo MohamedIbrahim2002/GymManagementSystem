@@ -1,4 +1,5 @@
 ﻿using GymManagment.DAL.Data.Models;
+using System.Linq.Expressions;
 
 namespace GymManagment.DAL.Repositories.Interfaces
 {
